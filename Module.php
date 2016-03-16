@@ -37,14 +37,12 @@ class Module extends AbstractModule
     public function displayCoinsShow(Event $event) {
         $view = $event->getTarget();
         $item = $view->item;
-        echo 'COinS for item ' . $item->id();
         echo $view->coins($item);
     }
 
     public function displayCoinsBrowse(Event $event) {
         $view = $event->getTarget();
         foreach ($view->items as $item) {
-          echo 'COinS for item ' . $item->id();
           echo $view->coins($item);
         }
     }
