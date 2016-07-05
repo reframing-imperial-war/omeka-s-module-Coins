@@ -2,9 +2,9 @@
 
 namespace CoinsTest\Controller;
 
-use Omeka\Test\AbstractHttpControllerTestCase;
+use OmekaTestHelper\Controller\OmekaControllerTestCase;
 
-abstract class CoinsControllerTestCase extends AbstractHttpControllerTestCase
+abstract class CoinsControllerTestCase extends OmekaControllerTestCase
 {
     protected $items;
     protected $site;
@@ -42,26 +42,5 @@ abstract class CoinsControllerTestCase extends AbstractHttpControllerTestCase
             $this->api()->delete('items', $item->id());
         }
         $this->api()->delete('sites', $this->site->id());
-    }
-
-    protected function loginAsAdmin()
-    {
-        $application = $this->getApplication();
-        $serviceLocator = $application->getServiceManager();
-        $auth = $serviceLocator->get('Omeka\AuthenticationService');
-        $adapter = $auth->getAdapter();
-        $adapter->setIdentity('admin@example.com');
-        $adapter->setCredential('root');
-        $auth->authenticate();
-    }
-
-    protected function getServiceLocator()
-    {
-        return $this->getApplication()->getServiceManager();
-    }
-
-    protected function api()
-    {
-        return $this->getServiceLocator()->get('Omeka\ApiManager');
     }
 }
