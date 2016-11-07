@@ -8,7 +8,8 @@ class ItemControllerTest extends CoinsControllerTestCase
 {
     public function testShowAction()
     {
-        $this->dispatch($this->items[0]->siteUrl($this->site->slug()));
+        $url = sprintf('/s/%s/item/%s', $this->site->slug(), $this->items[0]->id());
+        $this->dispatch($url);
         $this->assertResponseStatusCode(200);
         $this->assertQueryCount('span.Z3988', 1);
         $this->assertXpathQueryContentRegex('//span[@class="Z3988"]/@title', '/Test\+item\+0/');
