@@ -2,7 +2,7 @@
 namespace Coins;
 
 use Omeka\Module\AbstractModule;
-use Omeka\Event\Event;
+use Zend\EventManager\Event;
 use Zend\EventManager\SharedEventManagerInterface;
 
 /**
