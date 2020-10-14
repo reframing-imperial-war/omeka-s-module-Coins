@@ -54,18 +54,18 @@ class Coins extends AbstractHelper
         $properties = ['creator', 'subject', 'publisher', 'contributor', 'date', 'format', 'source', 'language', 'coverage', 'rights', 'relation', 'description'];
         foreach ($properties as $property) {
             $value = $item->value("dcterms:$property", ['type' => 'literal']);
-            if (!empty($value)) {
-                $coins["rft.$property"] = $value;
+            if ($value !== null) {
+                $coins["rft.$property"] = $value->value();
             }
         }
 
         // Set the title key from Dublin Core:title.
         $title = $item->value('dcterms:title', ['type' => 'literal']);
-        if (!isset($title) || empty(trim($title))) {
-            $title = '[unknown title]';
+        if ($title !== null) {
+            $coins['rft.title'] = $title->value();
+        } else {
+            $coins['rft.title'] = '[unknown title]';
         }
-        $coins['rft.title'] = $title;
-
 
         // Set the type key from item type, map to Zotero item types.
         $resourceClass = $item->resourceClass();
@@ -91,12 +91,18 @@ class Coins extends AbstractHelper
                     $type = 'document';
                     break;
                 default:
-                    $type = $resourceClass;
+                    $type = $resourceClass->localName();
             }
         } else {
-            $type = $item->value('dcterms:type', ['type' => 'literal']);
+            $typeValue = $item->value('dcterms:type', ['type' => 'literal']);
+            if ($typeValue !== null) {
+                $type = $typeValue->value();
+            }
         }
-        $coins['rft.type'] = $type;
+
+        if (isset($type)) {
+            $coins['rft.type'] = $type;
+        }
 
         // Set the identifier key as the absolute URL of the current page.
         $coins['rft.identifier'] = $item->url();
