@@ -90,6 +90,10 @@ class Coins extends AbstractHelper
                 case 'Document':
                     $type = 'document';
                     break;
+                case 'Image':
+                case 'StillImage':
+                    $type = 'artwork';
+                    break;
                 default:
                     $type = $resourceClass->localName();
             }
